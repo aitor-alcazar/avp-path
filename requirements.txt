@@ -1,3 +1,7 @@
 geopandas
-networkx
+svgwrite
+python-dotenv
+tqdm
 shapely
+progress
+contextily
