@@ -1,7 +1,3 @@
-geopandas
-svgwrite
-python-dotenv
-tqdm
-shapely
-progress
-contextily
+numpy
+matplotlib
+pytest
