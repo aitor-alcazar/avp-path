@@ -1,3 +1,9 @@
 numpy
 matplotlib
 pytest
+geojson
+shapely
+pyproj
+tqdm
+geopandas
+scikit-image

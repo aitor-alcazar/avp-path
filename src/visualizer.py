@@ -1,31 +1,31 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import os
+from shapely.geometry import LineString, Point
+import logging
+
+# Configure the logger
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def save_grid_image(grid, path, start, end, filename):
-    os.makedirs(os.path.dirname(filename), exist_ok=True)
+    """Save the grid as an image with obstacles and path"""
+    logger.info(f"Saving grid image as {filename}")
     
-    grid_data = grid.grid.copy()
+    fig, ax = plt.subplots(figsize=(grid.width / 10, grid.height / 10))  # Adjust size according to grid
+    ax.imshow(grid.grid, cmap='Greys', origin='lower')
     
-    for (x, y) in path:
-        grid_data[y, x] = 0.5
+    if path:
+        path_x, path_y = zip(*path)
+        ax.plot(path_x, path_y, color='blue', lw=2, marker='o', markersize=5, label='Path')
     
-    grid_data[start[1], start[0]] = 0.8
-    grid_data[end[1], end[0]] = 0.9
+    ax.plot(start[0], start[1], 'go', label='Start')
+    ax.plot(end[0], end[1], 'ro', label='End')
     
-    fig, ax = plt.subplots()
-    ax.imshow(grid_data, cmap='Greys', origin='upper')
-
-    ax.scatter(*zip(*path), c='blue', s=10, label='Path')
-    ax.scatter(*start, c='green', s=100, label='Start')
-    ax.scatter(*end, c='red', s=100, label='End')
+    ax.set_title('Grid with Obstacles and Path')
+    ax.set_xlabel('X coordinate')
+    ax.set_ylabel('Y coordinate')
     ax.legend()
-
-    # Mesh
-    ax.set_xticks(np.arange(-0.5, grid.width, 1))
-    ax.set_yticks(np.arange(-0.5, grid.height, 1))
-    ax.grid(which='both', color='black', linestyle='-', linewidth=1)
-    ax.tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)
-
-    plt.savefig(filename)
-    plt.close()
+    
+    plt.savefig(filename, format='svg')
+    plt.close(fig)
+    logger.info(f"Grid image saved as {filename}")
