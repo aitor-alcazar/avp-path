@@ -3,10 +3,10 @@ from src.astar import astar
 from src.visualizer import save_grid_image
 
 def main():
-    grid = Grid(width=10, height=10)
+    grid = Grid(width=20, height=20)
     grid.add_obstacles(num_obstacles=20)
     start = (0, 0)
-    end = (9, 9)
+    end = (16, 18)
     path = astar(grid, start, end)
     
     if path:
